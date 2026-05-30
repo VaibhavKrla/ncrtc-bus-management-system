@@ -101,8 +101,8 @@ pytest tests/ -v
 |----------|----------|-------------|
 | Architecture | `docs/architecture.md` | System design, DB schema, module flows, production path |
 | Assumptions | `docs/assumptions_and_decisions.md` | All assumptions made, key decisions with rationale |
-| Demo script | `docs/demo_script.md` | 10-minute walkthrough for evaluators |
-| Presentation | `docs/presentation_outline.md` | 12-slide deck outline with speaker notes |
+<!-- | Demo script | `docs/demo_script.md` | 10-minute walkthrough for evaluators | -->
+<!-- | Presentation | `docs/presentation_outline.md` | 12-slide deck outline with speaker notes | -->
 | API docs | http://localhost:8000/docs | Auto-generated Swagger (live when running) |
 
 ## Test summary
