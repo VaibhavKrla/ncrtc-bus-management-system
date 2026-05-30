@@ -1,8 +1,6 @@
 # NCRTC Bus Management System — Architecture Document
 
 **Version:** 1.0  
-**Team:** [Your names here]  
-**Date:** June 2025
 
 ---
 

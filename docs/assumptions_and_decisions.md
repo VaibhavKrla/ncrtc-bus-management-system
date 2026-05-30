@@ -4,18 +4,6 @@
 
 ---
 
-## Team
-
-| Member | Role |
-|--------|------|
-| [Member 1 name] | Backend (FastAPI, models, services, tests) |
-| [Member 2 name] | Frontend (React, maps, scheduling UI) |
-| [Member 3 name] | DevOps, integration, docs |
-
-*(Update with actual names before submission)*
-
----
-
 ## Section 1 — Necessary Assumptions
 
 ### 1.1 GPS & Vehicle Tracking
