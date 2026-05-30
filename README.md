@@ -5,7 +5,7 @@ Full-stack fleet management system for NCR Transport Corporation's feeder bus ne
 ## Quickstart
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/VaibhavKrla/ncrtc-bus-management-system.git
 cd ncrtc-bms
 docker compose down -v
 docker compose build --no-cache
