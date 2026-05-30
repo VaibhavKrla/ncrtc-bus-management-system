@@ -1,0 +1,88 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgis/postgis:15-3.3
+    container_name: ncrtc_db
+    environment:
+      POSTGRES_USER: ncrtc
+      POSTGRES_PASSWORD: ncrtc_pass
+      POSTGRES_DB: ncrtc_bms
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ncrtc -d ncrtc_bms"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: ncrtc_redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ncrtc_backend
+    environment:
+      DATABASE_URL: postgresql://ncrtc:ncrtc_pass@db:5432/ncrtc_bms
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: super-secret-key-change-in-production
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 60
+      ENVIRONMENT: development
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: >
+      sh -c "alembic upgrade head &&
+             python -m app.seed &&
+             uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ncrtc_frontend
+    environment:
+      VITE_API_URL: http://localhost:8000
+      VITE_WS_URL: ws://localhost:8000
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+  tick_script:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ncrtc_tick
+    environment:
+      DATABASE_URL: postgresql://ncrtc:ncrtc_pass@db:5432/ncrtc_bms
+    depends_on:
+      db:
+        condition: service_healthy
+    command: python -m app.tick
+    restart: unless-stopped
+
+volumes:
+  pgdata:

@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+*.db
+.pytest_cache/
+dist/
+build/
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.env
+
+# Docker
+.docker/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project Docs
+docs/demo_script.md
+docs/presentation_outline*.md
+docs/presentation_outline.md
+docs/presentation_outline_short.md
+docs/presentation_outline_chatgpt.md
